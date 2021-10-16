@@ -9,7 +9,7 @@ on:
 name: R-CMD-check
 
 jobs:
-  R-CMD-check:
+  metaflow-actions-reprex:
     runs-on: macos-latest
 
     steps:
