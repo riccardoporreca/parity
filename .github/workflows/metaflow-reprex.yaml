@@ -15,20 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.7'
-
-      - name: Install Python 3.x dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install tox numpy
-
-      - name: Set up R 3.6
+      - name: Set upR
         uses: r-lib/actions/setup-r@v1
-        with:
-          r-version: '3.6.3'
 
       - name: Verify Rscript exists
         run: |
