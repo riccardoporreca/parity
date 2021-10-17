@@ -32,4 +32,4 @@ jobs:
 
       - name: Verify Rscript exists
         run: |
-          Rscript -e 'install.packages("devtools", repos="https://cloud.r-project.org", Ncpus=8)'
+          Rscript -e '1+1'
