@@ -31,9 +31,28 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
 
+      - name: Verify R exists
+        if: always()
+        run: |
+          R --vanilla -e '1+1'
+
+      - name: Verify R exists (shell)
+        if: always()
+        run: |
+          1+1
+        shell: R --vanilla {0}
+
       - name: Verify Rscript exists
+        if: always()
         run: |
           Rscript -e '1+1'
 
+      - name: Verify Rscript exists (shell)
+        if: always()
+        run: |
+          1+1
+        shell: Rscript {0}
+
       - uses: r-lib/actions/setup-r-dependencies@v1
+        if: always()
 
