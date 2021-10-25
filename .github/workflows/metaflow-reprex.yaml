@@ -15,38 +15,49 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          # - {os: macos-10.15,   r: '3.6'}
-          - {os: macos-10.15,   r: 'oldrel-1'}
-          # - {os: macos-10.15,   r: 'release'}
-          # - {os: macos-10.15,   r: 'devel'}
-          # - {os: macOS-latest,   r: '3.6'}
-          - {os: macOS-latest,   r: 'oldrel-1'}
-          - {os: macOS-latest,   r: 'release'}
-          # - {os: macOS-latest,   r: 'devel'}
+          # - {os: macos-10.15, r: '3.6'}
+          - {os: macos-10.15, r: '4.0'}
+          - {os: macos-10.15, r: '4.1'}
+          # - {os: macos-10.15, r: 'devel'}
+          # - {os: macOS-11,    r: '3.6'}
+          - {os: macOS-11,    r: '4.0'}
+          - {os: macOS-11,    r: '4.1'}
+          # - {os: macOS-11,    r: 'devel'}
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Where R you?
+        run: |
+          which R || echo "No R found"
+          ls -ldAT /usr/local/bin/R* \
+            || echo "There is no /usr/local/bin/R*"
+          ls -ldAT /Library/Frameworks/R.framework/Resources/bin/* \
+            || echo "There is no R.framework/Resources/bin"
 
       - uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
 
-      - name: Which R
-        if: always()
+      - name: Where R you?
         run: |
-          which R
-          which Rscript
+          which R || echo "No R found"
+          ls -ldAT /usr/local/bin/R* \
+            || echo "There is no /usr/local/bin/R*"
+          ls -ldAT /Library/Frameworks/R.framework/Resources/bin/* \
+            || echo "There is no R.framework/Resources/bin"
 
       - name: Verify R exists
         if: always()
         run: |
-          R --vanilla -e '1+1'
+          which R && R --vanilla -e '1+1'
 
       - name: Verify Rscript exists
         if: always()
         run: |
-          Rscript -e '1+1'
+          which Rscript && Rscript -e '1+1'
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         if: always()
+        # just to see some more, incl. sessioninfo
 
