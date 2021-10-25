@@ -15,14 +15,14 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-10.15,   r: '3.6'}
+          # - {os: macos-10.15,   r: '3.6'}
           - {os: macos-10.15,   r: 'oldrel-1'}
-          - {os: macos-10.15,   r: 'release'}
-          - {os: macos-10.15,   r: 'devel'}
-          - {os: macOS-latest,   r: '3.6'}
+          # - {os: macos-10.15,   r: 'release'}
+          # - {os: macos-10.15,   r: 'devel'}
+          # - {os: macOS-latest,   r: '3.6'}
           - {os: macOS-latest,   r: 'oldrel-1'}
           - {os: macOS-latest,   r: 'release'}
-          - {os: macOS-latest,   r: 'devel'}
+          # - {os: macOS-latest,   r: 'devel'}
 
     steps:
       - uses: actions/checkout@v2
@@ -31,27 +31,21 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
 
+      - name: Which R
+        if: always()
+        run: |
+          which R
+          which Rscript
+
       - name: Verify R exists
         if: always()
         run: |
           R --vanilla -e '1+1'
 
-      - name: Verify R exists (shell)
-        if: always()
-        run: |
-          1+1
-        shell: R --vanilla {0}
-
       - name: Verify Rscript exists
         if: always()
         run: |
           Rscript -e '1+1'
-
-      - name: Verify Rscript exists (shell)
-        if: always()
-        run: |
-          1+1
-        shell: Rscript {0}
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         if: always()
