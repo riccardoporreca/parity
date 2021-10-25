@@ -8,15 +8,28 @@ name: metaflow-actions-reprex
 
 jobs:
   metaflow-actions-reprex:
-    runs-on: macos-10.15
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macos-10.15,   r: '3.6'}
+          - {os: macos-10.15,   r: 'oldrel-1'}
+          - {os: macos-10.15,   r: 'release'}
+          - {os: macos-10.15,   r: 'devel'}
+          - {os: macOS-latest,   r: '3.6'}
+          - {os: macOS-latest,   r: 'oldrel-1'}
+          - {os: macOS-latest,   r: 'release'}
+          - {os: macOS-latest,   r: 'devel'}
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up R 4.1.1
-        uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v1
         with:
-          r-version: '4.0.5'
+          r-version: ${{ matrix.config.r }}
 
       - name: Verify Rscript exists
         run: |
