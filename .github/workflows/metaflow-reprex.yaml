@@ -9,15 +9,17 @@ name: metaflow-actions-reprex
 jobs:
   metaflow-actions-reprex:
     runs-on: ${{ matrix.config.os }}
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }}, pak-${{ matrix.config.pak-version }})
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-20.04, r: '3.6'}
-          - {os: ubuntu-20.04, r: '4.0'}
-          - {os: ubuntu-20.04, r: '4.1'}
+          # - {os: ubuntu-20.04, r: '3.6'}
+          # - {os: ubuntu-20.04, r: '4.0'}
+          - {os: ubuntu-20.04, r: '4.1', pak-version: 'stable'}
+          - {os: ubuntu-20.04, r: '4.1', pak-version: 'rc'}
+          - {os: ubuntu-20.04, r: '4.1', pak-version: 'devel'}
 
     steps:
       - uses: actions/checkout@v2
@@ -27,4 +29,6 @@ jobs:
           r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-r-dependencies@v1
+        with:
+          pak-version: ${{ matrix.config.pak-version }}
 
